@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todolist/app/models/todo_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todolist/app/providers/todo_provider.dart';
 import 'package:todolist/app/screens/todoform_screen.dart';
 import 'package:todolist/app/widgets/todolist_widget.dart';
@@ -11,6 +11,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  SharedPreferences sharedPreferences;
+
+  @override
+  void initState() {
+    initSharedPreferences();
+
+    super.initState();
+  }
+
+  initSharedPreferences() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    Provider.of<TodoProvider>(context, listen: false).loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final TodoProvider todoProvider = Provider.of(context);

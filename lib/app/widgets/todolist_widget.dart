@@ -62,7 +62,7 @@ class _TodoItemState extends State<TodoItem> {
               ),
               children: [
                 Text(
-                  "Descrição",
+                  "Description",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 SizedBox(
@@ -74,6 +74,18 @@ class _TodoItemState extends State<TodoItem> {
                     widget.todo.description,
                     textAlign: TextAlign.justify,
                   ),
+                ),
+                Text(
+                  "Date",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      '${widget.todo.date.day}/${widget.todo.date.month}/${widget.todo.date.year}'),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

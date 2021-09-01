@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist/app/models/todo_model.dart';
@@ -11,6 +9,7 @@ class TodoForm extends StatefulWidget {
 }
 
 class _TodoFormState extends State<TodoForm> {
+  var _date = DateTime.now();
   final _formData = Map<String, Object>();
   final _formKey = GlobalKey<FormState>();
 
@@ -26,6 +25,7 @@ class _TodoFormState extends State<TodoForm> {
         _formData['id'] = todo.id;
         _formData['title'] = todo.title;
         _formData['description'] = todo.description;
+        _formData['date'] = todo.date;
       }
     }
     super.didChangeDependencies();
@@ -67,7 +67,7 @@ class _TodoFormState extends State<TodoForm> {
                   ),
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 10,
                 ),
                 TextFormField(
                   focusNode: _descriptionFocus,
@@ -80,7 +80,28 @@ class _TodoFormState extends State<TodoForm> {
                   ),
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 10,
+                ),
+                Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "${_date.day}/ ${_date.month}/ ${_date.year}",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +114,20 @@ class _TodoFormState extends State<TodoForm> {
                             size: 30,
                             color: Theme.of(context).primaryColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () async {
+                            DateTime picked = await showDatePicker(
+                              context: context,
+                              initialDate: _date,
+                              firstDate: DateTime(_date.year - 5),
+                              lastDate: DateTime(_date.year + 5),
+                            );
+                            if (picked != null) {
+                              setState(() {
+                                _date = picked;
+                                _formData['date'] = picked;
+                              });
+                            }
+                          },
                         ),
                         IconButton(
                           icon: Icon(
